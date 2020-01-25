@@ -10,7 +10,7 @@ using ReceiptMaster.Data;
 namespace ReceiptMaster.Migrations
 {
     [DbContext(typeof(MvcReceiptContext))]
-    [Migration("20200125144926_InitialCreate")]
+    [Migration("20200125205003_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

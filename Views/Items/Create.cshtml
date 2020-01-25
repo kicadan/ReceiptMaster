@@ -1,7 +1,7 @@
 ﻿@model ReceiptMaster.Models.Item
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Item";
 }
 
 <h1>Create</h1>
@@ -44,7 +44,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to Receipts", "Index", "Receipts")
 </div>
 
 @section Scripts {

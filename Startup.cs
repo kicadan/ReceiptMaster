@@ -59,7 +59,7 @@ namespace ReceiptMaster
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Receipts}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

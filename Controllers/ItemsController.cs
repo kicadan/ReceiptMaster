@@ -46,9 +46,16 @@ namespace ReceiptMaster.Controllers
         }
 
         // GET: Items/Create
-        public IActionResult Create()
+        public IActionResult Create(int? receiptID)
         {
-            ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "ReceiptID");
+            if (receiptID == null)
+            {
+                ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "Title");
+            }
+            else
+            {
+                ViewData["ReceiptID"] = new SelectList(_context.Receipt.Where(x => x.ReceiptID == receiptID), "ReceiptID", "Title");
+            }
             return View();
         }
 
@@ -62,11 +69,15 @@ namespace ReceiptMaster.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(item);
+                var receipt = _context.Receipt.Find(item.ReceiptID);
+                receipt.Sum += item.Price;
+                _context.Update(receipt);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Index", "Receipts", new { id = item.ReceiptID });
             }
             ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "ReceiptID", item.ReceiptID);
-            return View(item);
+            return RedirectToAction("Index", "Receipts", new { id = item.ReceiptID });
         }
 
         // GET: Items/Edit/5
@@ -82,7 +93,7 @@ namespace ReceiptMaster.Controllers
             {
                 return NotFound();
             }
-            ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "ReceiptID", item.ReceiptID);
+            ViewData["ReceiptID"] = new SelectList(_context.Receipt.Where(x => x.ReceiptID == item.ReceiptID), "ReceiptID", "Title", item.ReceiptID);
             return View(item);
         }
 
@@ -102,7 +113,11 @@ namespace ReceiptMaster.Controllers
             {
                 try
                 {
+                    var previousPrice = _context.Items.Where(x => x.ItemID == id).Select(x => x.Price).First();
+                    var receipt = _context.Receipt.Find(item.ReceiptID);
+                    receipt.Sum += item.Price - previousPrice;
                     _context.Update(item);
+                    _context.Update(receipt);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -116,10 +131,10 @@ namespace ReceiptMaster.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Receipts", new { id = item.ReceiptID });
             }
             ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "ReceiptID", item.ReceiptID);
-            return View(item);
+            return RedirectToAction("Index", "Receipts", new { id = item.ReceiptID });
         }
 
         // GET: Items/Delete/5
@@ -147,7 +162,10 @@ namespace ReceiptMaster.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var item = await _context.Items.FindAsync(id);
+            var receipt = _context.Receipt.Find(item.ReceiptID);
+            receipt.Sum -= item.Price;
             _context.Items.Remove(item);
+            _context.Update(receipt);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

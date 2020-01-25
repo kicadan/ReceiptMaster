@@ -26,11 +26,13 @@ namespace ReceiptMaster.Controllers
             var viewModel = new ReceiptIndexData();
 
             viewModel.Receipts = _context.Receipt
+                .Include(r => r.Items)
                 .OrderBy(r => r.PurchaseDate);
 
             if(id != null)
             {
                 ViewBag.ReceiptID = id.Value;
+                ViewBag.ReceiptTitle = viewModel.Receipts.Where(x => x.ReceiptID == id).Select(x => x.Title).First();
                 viewModel.Items = viewModel.Receipts.Where(
                     r => r.ReceiptID == id.Value).Single().Items;
             }

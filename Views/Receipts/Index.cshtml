@@ -14,7 +14,7 @@
         <tr>
             <th>Title</th>
             <th>Shop</th>
-            <th>PurchaseDate</th>
+            <th>Date of Purchase</th>
             <th>Sum</th>
             <th>Items</th>
             <th></th>
@@ -45,12 +45,12 @@
                     @{
                         foreach (var item in receipt.Items)
                         {
-                            @item.ItemID @:  @item.Name <br />
+                            @item.Name <br />
                         }
                     }
                 </td>
                 <td>
-                    <a asp-action="Select", asp-route-id="@receipt.ReceiptID">>Select</a>
+                    @Html.ActionLink("Select", "Index", new { id = receipt.ReceiptID }) |
                     <a asp-action="Edit" asp-route-id="@receipt.ReceiptID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@receipt.ReceiptID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@receipt.ReceiptID">Delete</a>
@@ -62,13 +62,15 @@
 
 @if (Model.Items != null)
 {
-    <h3>Courses Taught by Selected Instructor</h3>
+    <h3>Items on receipt: @ViewBag.ReceiptTitle</h3>
+    @Html.ActionLink("Add Item to Receipt", "Create", "Items", new { ReceiptID = ViewBag.ReceiptID })
     <table class="table">
         <tr>
-            <th></th>
             <th>Name</th>
+            <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th></th>
         </tr>
 
         @foreach (var item in Model.Items)
@@ -80,16 +82,20 @@
             }
             <tr class="@selectedRow">
                 <td>
-                    @Html.ActionLink("Select", "Index", new { itemID = item.ItemID })
+                    @item.Name
                 </td>
                 <td>
-                    @item.Name
+                    @item.Category
                 </td>
                 <td>
                     @item.Quantity
                 </td>
                 <td>
-                    @item.Price
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Items", new { id = item.ItemID}) |
+                    @Html.ActionLink("Delete", "Delete", "Items", new { id = item.ItemID})
                 </td>
             </tr>
         }

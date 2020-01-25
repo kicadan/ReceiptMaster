@@ -1,0 +1,98 @@
+﻿@model ReceiptMaster.ViewModels.ReceiptIndexData
+
+@{
+    ViewBag.Title = "Receipts";
+}
+
+<h1>Receipts</h1>
+
+<p>
+    <a asp-action="Create">Add New Receipt</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Shop</th>
+            <th>PurchaseDate</th>
+            <th>Sum</th>
+            <th>Items</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var receipt in Model.Receipts)
+        {
+            string selectedRow = "";
+            if (receipt.ReceiptID == ViewBag.ReceiptID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => receipt.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => receipt.Shop)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => receipt.PurchaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => receipt.Sum)
+                </td>
+                <td>
+                    @{
+                        foreach (var item in receipt.Items)
+                        {
+                            @item.ItemID @:  @item.Name <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Select", asp-route-id="@receipt.ReceiptID">>Select</a>
+                    <a asp-action="Edit" asp-route-id="@receipt.ReceiptID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@receipt.ReceiptID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@receipt.ReceiptID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Items != null)
+{
+    <h3>Courses Taught by Selected Instructor</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            string selectedRow = "";
+            if (item.ItemID == ViewBag.ItemID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { itemID = item.ItemID })
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        }
+
+    </table>
+}

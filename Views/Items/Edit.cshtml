@@ -20,7 +20,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                @if (ViewBag.NewCategory != null && ViewBag.NewCategory)
+                {
+                    <input asp-for="Category" asp- class="form-control" />
+                    <input type="button" value="Use one of existing Categories" onclick="@("window.location.href='" + @Url.Action("Edit", "Items", new { id = Model.ItemID, plusButtonPressed = !ViewBag.NewCategory }) + "'");" />
+                }
+                else if (ViewBag.NewCategory != null && !ViewBag.NewCategory)
+                {
+                    <select asp-for="Category" asp-items="ViewBag.Categories">
+                        <option value="">Select Category</option>
+                    </select>
+                    <input type="button" value="+" onclick="@("window.location.href='" + @Url.Action("Edit", "Items", new { id = Model.ItemID, plusButtonPressed = !ViewBag.NewCategory }) + "'");" />
+                }
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">

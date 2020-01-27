@@ -176,8 +176,13 @@ namespace ReceiptMaster.Controllers
         }
 
         // GET: Receipts/Create
-        public IActionResult Create()
+        public IActionResult Create(bool? plusButtonPressed)
         {
+            ViewData["Shops"] = new SelectList(_context.Receipt.Select(i => i.Shop).Distinct());
+            if (plusButtonPressed == null)
+                ViewData["NewShop"] = false;
+            else
+                ViewData["NewShop"] = plusButtonPressed;
             return View();
         }
 
@@ -198,12 +203,17 @@ namespace ReceiptMaster.Controllers
         }
 
         // GET: Receipts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, bool? plusButtonPressed)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            ViewData["Shops"] = new SelectList(_context.Receipt.Select(i => i.Shop).Distinct());
+            if (plusButtonPressed == null)
+                ViewData["NewShop"] = false;
+            else
+                ViewData["NewShop"] = plusButtonPressed;
 
             var receipt = await _context.Receipt.FindAsync(id);
             if (receipt == null)

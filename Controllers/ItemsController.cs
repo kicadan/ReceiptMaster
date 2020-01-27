@@ -188,8 +188,13 @@ namespace ReceiptMaster.Controllers
         }
 
         // GET: Items/Create
-        public IActionResult Create(int? receiptID)
+        public IActionResult Create(int? receiptID, bool? plusButtonPressed)
         {
+            ViewData["Categories"] = new SelectList(_context.Items.Select(i => i.Category).Distinct());
+            if (plusButtonPressed == null)
+                ViewData["NewCategory"] = false;
+            else
+                ViewData["NewCategory"] = plusButtonPressed;
             if (receiptID == null)
             {
                 ViewData["ReceiptID"] = new SelectList(_context.Receipt, "ReceiptID", "Title");
@@ -223,12 +228,17 @@ namespace ReceiptMaster.Controllers
         }
 
         // GET: Items/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, bool? plusButtonPressed)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            ViewData["Categories"] = new SelectList(_context.Items.Select(i => i.Category).Distinct());
+            if (plusButtonPressed == null)
+                ViewData["NewCategory"] = false;
+            else
+                ViewData["NewCategory"] = plusButtonPressed;
 
             var item = await _context.Items.FindAsync(id);
             if (item == null)

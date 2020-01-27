@@ -19,7 +19,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
+                @if (ViewBag.NewCategory != null && ViewBag.NewCategory)
+                {
+                    <input asp-for="Category" asp- class="form-control" />
+                    <input type="button" value="Use one of existing Categories" onclick="@("window.location.href='" + @Url.Action("Create", "Items", new { receiptID = ViewBag.ReceiptID, plusButtonPressed = !ViewBag.NewCategory }) + "'");" />
+                }
+                else if (ViewBag.NewCategory != null && !ViewBag.NewCategory)
+                {
+                    <select asp-for="Category" asp-items="ViewBag.Categories">
+                        <option value="">Select Category</option>
+                    </select>
+                    <input type="button" value="+" onclick="@("window.location.href='" + @Url.Action("Create", "Items", new { receiptID = ViewBag.ReceiptID, plusButtonPressed = !ViewBag.NewCategory }) + "'");" />
+                }
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ReceiptID" class="control-label"></label>
-                <select asp-for="ReceiptID" class ="form-control" asp-items="ViewBag.ReceiptID"></select>
+                <select asp-for="ReceiptID" class="form-control" asp-items="ViewBag.ReceiptID"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

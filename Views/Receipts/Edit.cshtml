@@ -20,7 +20,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Shop" class="control-label"></label>
-                <input asp-for="Shop" class="form-control" />
+                @if (ViewBag.NewShop != null && ViewBag.NewShop)
+                {
+                    <input asp-for="Shop" asp- class="form-control" />
+                    <input type="button" value="Use one of existing Shops" onclick="@("window.location.href='" + @Url.Action("Edit", "Receipts", new { id = Model.ReceiptID, plusButtonPressed = !ViewBag.NewShop }) + "'");" />
+                }
+                else if (ViewBag.NewShop != null && !ViewBag.NewShop)
+                {
+                    <select asp-for="Shop" asp-items="ViewBag.Shops">
+                        <option value="">Select Shop</option>
+                    </select>
+                    <input type="button" value="+" onclick="@("window.location.href='" + @Url.Action("Edit", "Receipts", new { id = Model.ReceiptID, plusButtonPressed = !ViewBag.NewShop }) + "'");" />
+                }
                 <span asp-validation-for="Shop" class="text-danger"></span>
             </div>
             <div class="form-group">

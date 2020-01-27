@@ -39,13 +39,13 @@
             @Html.DisplayNameFor(model => model.Receipt)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Receipt.ReceiptID)
+            @Html.DisplayFor(model => model.Receipt.Title)
         </dd class>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ItemID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        @Html.ActionLink("Back to List", "Index", "Receipts", new { id = Model.ReceiptID })
     </form>
 </div>

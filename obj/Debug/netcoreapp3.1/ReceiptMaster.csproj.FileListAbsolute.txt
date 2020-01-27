@@ -167,3 +167,6 @@ C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1
 C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\Razor\Views\Receipts\Edit.cshtml.g.cs
 C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\Razor\Views\Receipts\Index.cshtml.g.cs
 C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\ReceiptMaster.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\Razor\Views\Home\Summaries.cshtml.g.cs
+C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\Razor\Views\Items\Summary.cshtml.g.cs
+C:\Users\Daniel\source\Repos\ReceiptMaster\ReceiptMaster\obj\Debug\netcoreapp3.1\Razor\Views\Receipts\Summary.cshtml.g.cs

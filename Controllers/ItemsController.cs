@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReceiptMaster.Data;
 using ReceiptMaster.Models;
+using ReceiptMaster.ViewModels;
 
 namespace ReceiptMaster.Controllers
 {
@@ -24,6 +25,147 @@ namespace ReceiptMaster.Controllers
         {
             var mvcReceiptContext = _context.Items.Include(i => i.Receipt);
             return View(await mvcReceiptContext.ToListAsync());
+        }
+        public IActionResult Summary(string summary, string column)
+        {
+            SummariesDataWrapper summariesDataWrapper = new SummariesDataWrapper();
+            if (summary.Contains("Average"))
+            {
+                switch (column)
+                {
+                    case "Name":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .GroupBy(i => new { i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Average(y => y.Price), column)).ToList();
+                        break;
+                    case "Category":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                           .GroupBy(i => new { i.Category })
+                           .Select(x => new SummariesData(x.Key.Category, x.Average(y => y.Price), column)).ToList();
+                        break;
+                    case "Receipt":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Title })
+                            .Select(x => new SummariesData(x.Key.Title, x.Average(y => y.Price), column)).ToList();
+                        break;
+                    case "Shop":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Shop, i.Name})
+                            .Select(x => new SummariesData(x.Key.Name, x.Average(y => y.Price), x.Key.Shop)).ToList();
+                        break;
+                    case "Date":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.PurchaseDate.Month, i.Receipt.PurchaseDate.Year, i.Name, i.Receipt.Shop})
+                            .Select(x => new SummariesData(x.Key.Name, x.Average(y => y.Price), x.Key.Shop, new DateTime(x.Key.Year, x.Key.Month, 1).ToString("MMMM yyyy"))).ToList();
+                        break;
+                }
+            } else if (summary.Contains("Sum"))
+            {
+                switch (column)
+                {
+                    case "Name":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .GroupBy(i => new { i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Sum(y => y.Price))).ToList();
+                        break;
+                    case "Category":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                           .GroupBy(i => new { i.Category })
+                           .Select(x => new SummariesData(x.Key.Category, x.Sum(y => y.Price))).ToList();
+                        break;
+                    case "Receipt":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Title })
+                            .Select(x => new SummariesData(x.Key.Title, x.Sum(y => y.Price))).ToList();
+                        break;
+                    case "Shop":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Shop, i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Sum(y => y.Price), x.Key.Shop)).ToList();
+                        break;
+                    case "Date":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.PurchaseDate.Month, i.Receipt.PurchaseDate.Year, i.Name, i.Receipt.Shop })
+                            .Select(x => new SummariesData(x.Key.Name, x.Sum(y => y.Price), x.Key.Shop, new DateTime(x.Key.Year, x.Key.Month, 1).ToString("MMMM yyyy"))).ToList();
+                        break;
+                }
+            } else if (summary.Contains("Minimum"))
+            {
+                switch (column)
+                {
+                    case "Name":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .GroupBy(i => new { i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Min(y => y.Price))).ToList();
+                        break;
+                    case "Category":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                           .GroupBy(i => new { i.Category })
+                           .Select(x => new SummariesData(x.Key.Category, x.Min(y => y.Price))).ToList();
+                        break;
+                    case "Receipt":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Title })
+                            .Select(x => new SummariesData(x.Key.Title, x.Min(y => y.Price))).ToList();
+                        break;
+                    case "Shop":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Shop, i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Min(y => y.Price), x.Key.Shop)).ToList();
+                        break;
+                    case "Date":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.PurchaseDate.Month, i.Receipt.PurchaseDate.Year, i.Name, i.Receipt.Shop })
+                            .Select(x => new SummariesData(x.Key.Name, x.Min(y => y.Price), x.Key.Shop, new DateTime(x.Key.Year, x.Key.Month, 1).ToString("MMMM yyyy"))).ToList();
+                        break;
+                }
+            } else if (summary.Contains("Maximum"))
+            {
+                switch (column)
+                {
+                    case "Name":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .GroupBy(i => new { i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Max(y => y.Price))).ToList();
+                        break;
+                    case "Category":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                           .GroupBy(i => new { i.Category })
+                           .Select(x => new SummariesData(x.Key.Category, x.Max(y => y.Price))).ToList();
+                        break;
+                    case "Receipt":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Title })
+                            .Select(x => new SummariesData(x.Key.Title, x.Max(y => y.Price))).ToList();
+                        break;
+                    case "Shop":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.Shop, i.Name })
+                            .Select(x => new SummariesData(x.Key.Name, x.Max(y => y.Price), x.Key.Shop)).ToList();
+                        break;
+                    case "Date":
+                        summariesDataWrapper.SummariesDatas = _context.Items
+                            .Include(item => item.Receipt)
+                            .GroupBy(i => new { i.Receipt.PurchaseDate.Month, i.Receipt.PurchaseDate.Year, i.Name, i.Receipt.Shop })
+                            .Select(x => new SummariesData(x.Key.Name, x.Max(y => y.Price), x.Key.Shop, new DateTime(x.Key.Year, x.Key.Month, 1).ToString("MMMM yyyy"))).ToList();
+                        break;
+                }
+            }
+            ViewBag.Summary = summary;
+            ViewBag.ItemType = "Items";
+            summariesDataWrapper.Column = column;
+            return View(summariesDataWrapper);
         }
 
         // GET: Items/Details/5
@@ -167,7 +309,7 @@ namespace ReceiptMaster.Controllers
             _context.Items.Remove(item);
             _context.Update(receipt);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Receipts", new { id = item.ReceiptID });
         }
 
         private bool ItemExists(int id)

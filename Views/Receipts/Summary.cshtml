@@ -1,0 +1,46 @@
+﻿@model ReceiptMaster.ViewModels.SummariesDataWrapper
+
+@{
+    ViewData["Title"] = "Receipts summary";
+}
+
+<h1>Receipts</h1>
+
+<h4>@ViewBag.Summary on column: @ViewBag.ItemType</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First value
+            </th>
+            @if (Model.Column.Contains("MonthInShop"))
+            {
+                <th>
+                    Second value
+                </th>
+            }
+            <th>
+                Rate value
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SummariesDatas) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            @if (Model.Column.Contains("MonthInShop"))
+            {
+                <td>
+                    @item.SecondName
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
+            <td>
+        </tr>
+}
+    </tbody>
+</table>

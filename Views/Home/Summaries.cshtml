@@ -1,0 +1,110 @@
+﻿@model ReceiptMaster.ViewModels.SummariesDataWrapper
+
+@{
+    ViewData["Title"] = "Summaries";
+}
+
+<h1>Summaries</h1>
+
+<h4>Item summaries</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Group by column</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Average</td>
+            <td>
+                @Html.ActionLink("Name", "Summary", "Items", new { summary = "Average", column = "Name" }) |
+                @Html.ActionLink("Category", "Summary", "Items", new { summary = "Average", column = "Category" }) |
+                @Html.ActionLink("Receipt", "Summary", "Items", new { summary = "Average", column = "Receipt" }) |
+                @Html.ActionLink("Shop", "Summary", "Items", new { summary = "Average", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Items", new { summary = "Average", column = "Date" })
+            </td>
+        </tr>
+        <tr>
+            <td>Sum</td>
+            <td>
+                @Html.ActionLink("Name", "Summary", "Items", new { summary = "Sum", column = "Name" }) |
+                @Html.ActionLink("Category", "Summary", "Items", new { summary = "Sum", column = "Category" }) |
+                @Html.ActionLink("Receipt", "Summary", "Items", new { summary = "Sum", column = "Receipt" }) |
+                @Html.ActionLink("Shop", "Summary", "Items", new { summary = "Sum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Items", new { summary = "Sum", column = "Date" })
+            </td>
+        </tr>
+        <tr>
+            <td>Minimum</td>
+            <td>
+                @Html.ActionLink("Name", "Summary", "Items", new { summary = "Minimum", column = "Name" }) |
+                @Html.ActionLink("Category", "Summary", "Items", new { summary = "Minimum", column = "Category" }) |
+                @Html.ActionLink("Receipt", "Summary", "Items", new { summary = "Minimum", column = "Receipt" }) |
+                @Html.ActionLink("Shop", "Summary", "Items", new { summary = "Minimum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Items", new { summary = "Minimum", column = "Date" })
+            </td>
+        </tr>
+        <tr>
+            <td>Maximum</td>
+            <td>
+                @Html.ActionLink("Name", "Summary", "Items", new { summary = "Maximum", column = "Name" }) |
+                @Html.ActionLink("Category", "Summary", "Items", new { summary = "Maximum", column = "Category" }) |
+                @Html.ActionLink("Receipt", "Summary", "Items", new { summary = "Maximum", column = "Receipt" }) |
+                @Html.ActionLink("Shop", "Summary", "Items", new { summary = "Maximum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Items", new { summary = "Maximum", column = "Date" })
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h4>Receipt summaries</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Group by column</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Average</td>
+            <td>
+                @Html.ActionLink("Title", "Summary", "Receipts", new { summary = "Average", column = "Title" }) |
+                @Html.ActionLink("Shop", "Summary", "Receipts", new { summary = "Average", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Receipts", new { summary = "Average", column = "PurchaseMonth" }) |
+                @Html.ActionLink("Montly in shops", "Summary", "Receipts", new { summary = "Average", column = "MonthInShop" })
+            </td>
+        </tr>
+        <tr>
+            <td>Sum</td>
+            <td>
+                @Html.ActionLink("Title", "Summary", "Receipts", new { summary = "Sum", column = "Title" }) |
+                @Html.ActionLink("Shop", "Summary", "Receipts", new { summary = "Sum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Receipts", new { summary = "Sum", column = "PurchaseMonth" }) |
+                @Html.ActionLink("Montly in shops", "Summary", "Receipts", new { summary = "Sum", column = "MonthInShop" })
+            </td>
+        </tr>
+        <tr>
+            <td>Minimum</td>
+            <td>
+                @Html.ActionLink("Title", "Summary", "Receipts", new { summary = "Minimum", column = "Title" }) |
+                @Html.ActionLink("Shop", "Summary", "Receipts", new { summary = "Minimum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Receipts", new { summary = "Minimum", column = "PurchaseMonth" }) |
+                @Html.ActionLink("Montly in shops", "Summary", "Receipts", new { summary = "Minimum", column = "MonthInShop" })
+            </td>
+        </tr>
+        <tr>
+            <td>Maximum</td>
+            <td>
+                @Html.ActionLink("Title", "Summary", "Receipts", new { summary = "Maximum", column = "Title" }) |
+                @Html.ActionLink("Shop", "Summary", "Receipts", new { summary = "Maximum", column = "Shop" }) |
+                @Html.ActionLink("Month", "Summary", "Receipts", new { summary = "Maximum", column = "PurchaseMonth" }) |
+                @Html.ActionLink("Montly in shops", "Summary", "Receipts", new { summary = "Maximum", column = "MonthInShop" })
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

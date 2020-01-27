@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ReceiptMaster.Models;
+using ReceiptMaster.ViewModels;
 
 namespace ReceiptMaster.Controllers
 {
@@ -16,6 +17,18 @@ namespace ReceiptMaster.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        public IActionResult Summaries(SummariesDataWrapper? summariesDataWrapper, string? summary, string? itemType)
+        {
+            if (summariesDataWrapper != null)
+            {
+                ViewBag.ItemType = itemType;
+                ViewBag.Summary = summary;
+                return View(summariesDataWrapper);
+            }
+            else
+                return View();
         }
 
         public IActionResult Index()

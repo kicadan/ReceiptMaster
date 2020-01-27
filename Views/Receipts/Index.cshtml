@@ -7,7 +7,7 @@
 <h1>Receipts</h1>
 
 <p>
-    <a asp-action="Create">Add New Receipt</a>
+    <a asp-action="Create">Create New Receipt</a>
 </p>
 <table class="table">
     <thead>
@@ -62,7 +62,7 @@
 
 @if (Model.Items != null)
 {
-    <h3>Items on receipt: @ViewBag.ReceiptTitle</h3>
+    <h3>Selected receipt: @ViewBag.ReceiptTitle</h3>
     @Html.ActionLink("Add Item to Receipt", "Create", "Items", new { ReceiptID = ViewBag.ReceiptID })
     <table class="table">
         <tr>

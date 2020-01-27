@@ -62,8 +62,8 @@
 
 @if (Model.Items != null)
 {
-    <h3>Items on receipt: @ViewBag.ReceiptTitle</h3>
-    @Html.ActionLink("Add Item to Receipt", "Create", "Items", new { ReceiptID = ViewBag.ReceiptID })
+    <h3>Items on selected Receipt: @ViewBag.ReceiptTitle</h3>
+    @Html.ActionLink("Add new Item to selected Receipt", "Create", "Items", new { ReceiptID = ViewBag.ReceiptID })
     <table class="table">
         <tr>
             <th>Name</th>
